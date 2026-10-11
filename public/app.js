@@ -45,3 +45,49 @@ el('next-ball').addEventListener('click', () => {
 
 el('theme-toggle').addEventListener('click', () => document.body.classList.toggle('night'));
 
+
+
+// Live data connection: browser calls only our own secure Vercel endpoints.
+let liveMatch = null;
+async function refreshLiveMatch() {
+  try {
+    const result = await fetch('/api/match');
+    if (!result.ok) throw new Error('Live data is temporarily unavailable');
+    const { match } = await result.json();
+    liveMatch = match;
+    const teams = match.teams || [];
+    if (teams[0]) el('batting-team').textContent = teams[0];
+    if (teams[1]) el('bowling-team').textContent = teams[1];
+    el('score').textContent = match.currentScore ? `${match.currentScore.runs}/${match.currentScore.wickets}` : '—';
+    el('overs').textContent = match.currentScore ? `${match.currentScore.overs} ov` : '';
+    el('target-line').textContent = match.target ? `Target ${match.target}` : (match.matchType || 'LIVE').toUpperCase();
+    el('match-status').innerHTML = '<span class="red-dot"></span>' + (match.status || 'Live score updated');
+    document.querySelector('.competition').textContent = match.name || 'LIVE CRICKET';
+  } catch (error) {
+    console.info('MatchMind live feed:', error.message);
+  }
+}
+async function answer(question) {
+  const output = el('chat-answer');
+  output.querySelector('p').textContent = liveMatch ? 'MatchMind is analysing the live match…' : getAnswer(question);
+  output.classList.add('show');
+  if (!liveMatch) return;
+  try {
+    const result = await fetch('/api/insight', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, match: liveMatch }) });
+    const payload = await result.json();
+    if (!result.ok) throw new Error(payload.error || 'Unable to generate an insight');
+    output.querySelector('p').textContent = payload.answer;
+  } catch (error) {
+    output.querySelector('p').textContent = 'Live match data is available, but the AI explanation is temporarily unavailable. ' + getAnswer(question);
+  }
+}
+const previousButton = el('next-ball');
+if (previousButton) {
+  const refreshButton = previousButton.cloneNode(true);
+  refreshButton.id = 'next-ball';
+  refreshButton.innerHTML = 'Refresh live data <span>↻</span>';
+  previousButton.replaceWith(refreshButton);
+  refreshButton.addEventListener('click', refreshLiveMatch);
+}
+refreshLiveMatch();
+setInterval(refreshLiveMatch, 30000);
