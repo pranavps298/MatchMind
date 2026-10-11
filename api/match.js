@@ -10,7 +10,8 @@ async function cricketData(path, apiKey) {
 function normalise(match, scorecard) {
   const innings = scorecard?.data?.score || match?.score || [];
   const current = liveInnings(innings); const prior = innings.length > 1 ? innings[innings.length - 2] : null;
-  return { id: scorecard?.data?.id || match.id, name: scorecard?.data?.name || match.name, status: scorecard?.data?.status || match.status, venue: scorecard?.data?.venue || match.venue, teams: scorecard?.data?.teams || match.teams || [], maxOvers: 20, target: prior?.r ? Number(prior.r) + 1 : null, currentScore: { runs: current.r || 0, wickets: current.w || 0, overs: current.o || 0 }, rawScorecard: scorecard?.data || null };
+  const matchType = scorecard?.data?.matchType || match.matchType || "t20";
+  return { id: scorecard?.data?.id || match.id, name: scorecard?.data?.name || match.name, status: scorecard?.data?.status || match.status, venue: scorecard?.data?.venue || match.venue, teams: scorecard?.data?.teams || match.teams || [], matchType, maxOvers: matchType === "test" ? null : 20, target: prior?.r ? Number(prior.r) + 1 : null, currentScore: { runs: current.r || 0, wickets: current.w || 0, overs: current.o || 0 }, rawScorecard: scorecard?.data || null };
 }
 export default async function handler(request, response) {
   if (request.method !== "GET") return response.status(405).json({ error: "Method not allowed" });
