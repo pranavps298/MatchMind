@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071e31" />
+    <title>MatchMind AI — Live Cricket Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="MatchMind home"><span class="brand-mark">M</span><span>MatchMind<span class="ai">AI</span></span></a>
+        <div class="live-pill"><span class="pulse"></span> LIVE ANALYSIS</div>
+        <button class="icon-button" id="theme-toggle" aria-label="Toggle colour theme">◐</button>
+      </header>
+
+      <section class="match-hero" aria-label="Live match score">
+        <div class="competition">INDIAN PREMIER LEAGUE <span>•</span> MATCH 47</div>
+        <div class="teams-row">
+          <div class="team team-left"><div class="crest csk">CSK</div><div><strong>Chennai</strong><small>Chasing</small></div></div>
+          <div class="score-block"><div class="score"><span id="score">118/4</span> <small id="overs">14.2 ov</small></div><div class="target">Target 181 <span>•</span> Need 63 from 34</div></div>
+          <div class="team team-right"><div><strong>Mumbai</strong><small>180/6 (20)</small></div><div class="crest mi">MI</div></div>
+        </div>
+        <div class="match-status"><span class="red-dot"></span> Chennai need 11.12 per over · Mumbai are ahead</div>
+      </section>
+
+      <section class="dashboard">
+        <div class="left-column">
+          <article class="card scorecard">
+            <div class="card-heading"><div><p class="eyebrow">LIVE SCORECARD</p><h2>At the crease</h2></div><button class="text-button" id="next-ball">Simulate next ball <span>→</span></button></div>
+            <div class="batter-table">
+              <div class="table-head"><span>Batter</span><span>R</span><span>B</span><span>4s</span><span>SR</span></div>
+              <div class="table-row"><span class="player"><i class="active-dot"></i>R. Jadeja <small>*</small></span><span>31</span><span>24</span><span>2</span><span>129.2</span></div>
+              <div class="table-row"><span class="player">S. Dube</span><span>18</span><span>16</span><span>1</span><span>112.5</span></div>
+            </div>
+            <div class="bowler-line"><span>Last over</span><div id="ball-strip" class="ball-strip"><b>1</b><b>•</b><b>1</b><b>1</b><b>•</b><b>2</b></div><strong>5 runs</strong></div>
+          </article>
+
+          <article class="card timeline-card">
+            <div class="card-heading"><div><p class="eyebrow">MATCH PULSE</p><h2>Recent turning points</h2></div></div>
+            <div class="timeline" id="timeline">
+              <div class="event negative"><time>13.5</time><div><strong>WICKET</strong><p>Pathirana removes Conway — Chennai lose momentum.</p></div></div>
+              <div class="event neutral"><time>12.0</time><div><strong>PRESSURE BUILDS</strong><p>Just 7 runs from the over; required rate crosses 10.</p></div></div>
+              <div class="event positive"><time>10.4</time><div><strong>BOUNDARY</strong><p>Jadeja finds the gap to keep the chase alive.</p></div></div>
+            </div>
+          </article>
+
+          <article class="card spotlight">
+            <div class="spotlight-avatar">RJ</div><div><p class="eyebrow">PLAYER SPOTLIGHT</p><h2>Jadeja is above expectation</h2><p>His 129 strike rate is 22% above his chase average — but he needs more boundary support.</p></div><span class="up-tag">↑ 22%</span>
+          </article>
+        </div>
+
+        <aside class="right-column">
+          <article class="card momentum-card">
+            <div class="card-heading"><div><p class="eyebrow">MATCH MOMENTUM</p><h2>Mumbai have the edge</h2></div><span class="momentum-score" id="momentum-score">MI +42</span></div>
+            <div class="meter" aria-label="Mumbai have 71 percent match momentum"><div class="meter-fill" id="meter-fill"></div><span class="meter-label left">CSK</span><span class="meter-label right">MI</span></div>
+            <p class="momentum-copy" id="momentum-copy">Wickets remain, but the chase is slipping because Chennai are not finding boundaries.</p>
+            <div class="reasons" id="reasons"><div><span>01</span> Required rate is <b>11.12</b>, up from 8.2.</div><div><span>02</span> Only <b>1 boundary</b> in the last 24 balls.</div><div><span>03</span> Two wickets have fallen in three overs.</div></div>
+          </article>
+
+          <article class="card explain-card">
+            <div class="explain-head"><span class="sparkle">✦</span><div><p class="eyebrow">EXPLAIN THAT MOMENT</p><h2>Why did that wicket matter?</h2></div></div>
+            <p>Conway's wicket removed Chennai's only set top-order batter. The new pair must now score at 11.12 an over with no established partnership.</p>
+            <button class="explain-button prompt-button" data-question="Why did that wicket change the match?">Get AI explanation <span>→</span></button>
+          </article>
+
+          <article class="card chat-card">
+            <div class="chat-title"><span class="sparkle">✦</span><div><p class="eyebrow">ASK MATCHMIND</p><h2>Your live cricket analyst</h2></div></div>
+            <div class="suggestions"><button class="prompt-button" data-question="Why is Chennai struggling despite wickets in hand?">Why is Chennai struggling?</button><button class="prompt-button" data-question="What should Chennai do in the next two overs?">What should Chennai do next?</button><button class="prompt-button" data-question="Who is outperforming expectations?">Who's outperforming?</button></div>
+            <div class="chat-answer" id="chat-answer" aria-live="polite"><span class="sparkle">✦</span><p>Ask a question to get an evidence-backed read of this chase.</p></div>
+            <form class="chat-input" id="chat-form"><input id="question" autocomplete="off" placeholder="Ask about this match…" aria-label="Ask MatchMind" /><button type="submit" aria-label="Send question">↑</button></form>
+          </article>
+        </aside>
+      </section>
+      <footer>MatchMind AI turns match signals into fan-friendly context. <span>Demo data · Not live match feed</span></footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
+
