@@ -1,3 +1,4 @@
+window.matchMindLoaded = true;
 const state = { score: 118, wickets: 4, balls: 86, momentum: 42, boundaryDrought: 24, lastOver: ['1','•','1','1','•','2'] };
 
 const el = (id) => document.getElementById(id);
